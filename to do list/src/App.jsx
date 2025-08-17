@@ -14,6 +14,19 @@ useEffect(() => {
 }, [tasks]
 )
 
+useEffect(() => {
+  async function fetchTasks() {
+      //chamr a API
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
+      //pegar os dados que ela retorna
+      const data = await response.json();
+      //armazenar os dados no state
+      setTasks(data)
+  }
+  fetchTasks();
+}, []
+);
+
 function onTaskClick(taskId){
   const newTasks = tasks.map(task => {
     if (task.id === taskId) {
@@ -45,7 +58,7 @@ function onAddTaskSubmit(title, description){
 
 
   return (
-    <div className='w-screen h-screen bg-slate-500 flex justify-center p-6'>
+    <div className='w-auto h-max bg-slate-500 flex justify-center p-6'>
       <div className='w-[500px] space-y-4'>
         <h1 className='text-slate-100 text-3xl font-bold text-center'>Lista de Tarefas</h1>
         <AddTask onAddTaskSubmit={onAddTaskSubmit} />
